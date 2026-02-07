@@ -1,0 +1,299 @@
+{
+  "name": "Automated Job Application System",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "atharvsingh767@gmail.com",
+        "subject": "=New form Submission from : {{ $json.Name }}",
+        "message": "=Form recieved from :: \nName : {{$json.Name}} ,  \nEmail: {{$json.Email}} ",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "Resume"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "0ba0e257-12f8-4f86-9d86-1f2b924108ee",
+      "name": "Send a message",
+      "webhookId": "21b7648b-daa8-4adc-8247-19c040fd8a26",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BtfBBiSXRyvlSCWx",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Form",
+        "formDescription": "We'll get back to you soon",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Job Role",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Institution",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Resume",
+              "fieldType": "file",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Message",
+              "placeholder": "Any feedback (optional)"
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -320,
+        0
+      ],
+      "id": "5bd948a4-f83e-4c66-b6f1-e29478bf717c",
+      "name": "On form submission",
+      "webhookId": "2778de8c-5204-4212-b36c-786b5e61a286"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$node[\"On form submission\"].json.Email}}",
+        "subject": "We received your application",
+        "message": "=Hi {{$node[\"On form submission\"].json.Name}},  Thank you for submitting your application. We have successfully received your resume and details.  Our team will review your profile and contact you if there is a match.  Best regards, Atharv",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        0
+      ],
+      "id": "232ff0de-deb4-49e3-8c94-d380fba98785",
+      "name": "Send a message1",
+      "webhookId": "e4563002-db52-49eb-ba57-44339dc25696",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BtfBBiSXRyvlSCWx",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1LFyiIs-KTeD-goVl8W32TjsbPTXm_6idEIr5iQB7npo",
+          "mode": "list",
+          "cachedResultName": "Form Submission",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LFyiIs-KTeD-goVl8W32TjsbPTXm_6idEIr5iQB7npo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LFyiIs-KTeD-goVl8W32TjsbPTXm_6idEIr5iQB7npo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{$node[\"On form submission\"].json.Name}}",
+            "Email": "={{$node[\"On form submission\"].json.Email}}",
+            "Job Role ": "={{$node[\"On form submission\"].json['Job Role']}}",
+            "Phone": "={{$node[\"On form submission\"].json.Phone}}",
+            "Date": "={{$node[\"On form submission\"].json.Date}}",
+            "Institution": "={{$node[\"On form submission\"].json.Institution}}",
+            "Messsage": "={{$node[\"On form submission\"].json.Message}}",
+            " Resume Uploaded": "={{$node[\"On form submission\"].json.Resume && $node[\"On form submission\"].json.Resume.length > 0 ? \"YES\" : \"NO\"}}\n"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job Role ",
+              "displayName": "Job Role ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Institution",
+              "displayName": "Institution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " Resume Uploaded",
+              "displayName": " Resume Uploaded",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Messsage",
+              "displayName": "Messsage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        0
+      ],
+      "id": "c1de1609-9534-4560-a86f-7b4e5bf95704",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "f1YJoO23zlafLkJQ",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "65648794-5c8b-4503-b91c-161b2403e01b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc6c52c23154caa9f613750e5c222844d22ccbcb9c998586dee37df6beb7a900"
+  },
+  "id": "6KUt_zDKar-yzTOf5Xpe8",
+  "tags": []
+}
